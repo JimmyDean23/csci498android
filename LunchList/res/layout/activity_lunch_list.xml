@@ -1,64 +1,20 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
-
-    <LinearLayout
-        android:id="@+id/linearLayout1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="71dp" >
-    </LinearLayout>
-
-    <TextView
-        android:id="@+id/textView1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/linearLayout1"
-        android:layout_marginBottom="37dp"
-        android:layout_toRightOf="@+id/linearLayout1"
-        android:text="Name:" />
-
-    <LinearLayout
-        android:id="@+id/linearLayout2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/textView1"
-        android:layout_below="@+id/textView1" >
-    </LinearLayout>
-
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/linearLayout1"
-        android:layout_alignLeft="@+id/linearLayout2"
-        android:text="Address:" />
-
-    <EditText
-        android:id="@+id/addr"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/linearLayout2"
-        android:layout_toRightOf="@+id/textView2"
-        android:ems="10" />
-
-    <EditText
-        android:id="@+id/name"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/addr"
-        android:layout_toRightOf="@+id/textView1"
-        android:ems="10" />
-
-    <Button
-        android:id="@+id/save"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/linearLayout1"
-        android:layout_toRightOf="@+id/linearLayout1"
-        android:text="Save" />
-
-</RelativeLayout>
+    android:layout_height="match_parent" 
+    android:stretchColumns="1"
+    >
+	<TableRow>
+	    <TextView android:text="Name: " />
+	    <EditText android:id="@+id/name" />
+	</TableRow>
+	<TableRow>
+	    <TextView android:text="Address: " />
+	    <EditText android:id="@+id/addr" />
+	</TableRow>
+	<Button android:id="@+id/save"
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:text="Save"
+	/>
+</TableLayout>
