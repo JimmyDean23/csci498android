@@ -16,6 +16,11 @@ public class LunchList extends Activity {
 	private RadioButton radioButtonGayoon;
 	private RadioButton radioButtonSohyun;
 	private RadioButton radioButtonHyuna;
+	private RadioButton radioButtonHara;
+	private RadioButton radioButtonGyuri;
+	private RadioButton radioButtonNicole;
+	private RadioButton radioButtonJiyoung;
+	private RadioButton radioButtonSeungyeon;
 
 	
     @Override
@@ -32,6 +37,7 @@ public class LunchList extends Activity {
     private void addSomeRadioButtons(){
     	radioGroup4minute = (RadioGroup) findViewById(R.id.types);
         
+    	// 4Minute member radio buttons
         radioButtonJiyoon = new RadioButton(this);
         radioButtonJiyoon.setText("Jiyoon");
         radioButtonJihyun = new RadioButton(this);
@@ -43,11 +49,30 @@ public class LunchList extends Activity {
         radioButtonHyuna = new RadioButton(this);
         radioButtonHyuna.setText("Hyuna");
         
+        // Kara member radio buttons
+        radioButtonHara = new RadioButton(this);
+        radioButtonHara.setText("Hara");
+        radioButtonGyuri = new RadioButton(this);
+        radioButtonGyuri.setText("Gyuri");
+        radioButtonNicole = new RadioButton(this);
+        radioButtonNicole.setText("Nicole");
+        radioButtonJiyoung = new RadioButton(this);
+        radioButtonJiyoung.setText("Jiyoung");
+        radioButtonSeungyeon = new RadioButton(this);
+        radioButtonSeungyeon.setText("Seungyeon");
+        
+        // add buttons to radio button group
         radioGroup4minute.addView(radioButtonJiyoon);
         radioGroup4minute.addView(radioButtonJihyun);
         radioGroup4minute.addView(radioButtonGayoon);
         radioGroup4minute.addView(radioButtonSohyun);
         radioGroup4minute.addView(radioButtonHyuna);
+        
+        radioGroup4minute.addView(radioButtonHara);
+        radioGroup4minute.addView(radioButtonGyuri);
+        radioGroup4minute.addView(radioButtonNicole);
+        radioGroup4minute.addView(radioButtonJiyoung);
+        radioGroup4minute.addView(radioButtonSeungyeon);
     }
     
     private View.OnClickListener onSave = new View.OnClickListener() {
