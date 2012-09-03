@@ -21,7 +21,6 @@ public class LunchList extends Activity {
 	private RadioButton radioButtonNicole;
 	private RadioButton radioButtonJiyoung;
 	private RadioButton radioButtonSeungyeon;
-
 	
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -29,7 +28,6 @@ public class LunchList extends Activity {
         setContentView(R.layout.activity_lunch_list);
         
         addSomeRadioButtons();
-       
         Button save = (Button) findViewById(R.id.save);
         save.setOnClickListener(onSave);
     }
