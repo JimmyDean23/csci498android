@@ -23,8 +23,15 @@ public class LunchList extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lunch_list);
         
-        radioGroup4minute = (RadioGroup) findViewById(R.id.types);
+        addSomeRadioButtons();
        
+        Button save = (Button) findViewById(R.id.save);
+        save.setOnClickListener(onSave);
+    }
+    
+    private void addSomeRadioButtons(){
+    	radioGroup4minute = (RadioGroup) findViewById(R.id.types);
+        
         radioButtonJiyoon = new RadioButton(this);
         radioButtonJiyoon.setText("Jiyoon");
         radioButtonJihyun = new RadioButton(this);
@@ -41,9 +48,6 @@ public class LunchList extends Activity {
         radioGroup4minute.addView(radioButtonGayoon);
         radioGroup4minute.addView(radioButtonSohyun);
         radioGroup4minute.addView(radioButtonHyuna);
-       
-        Button save = (Button) findViewById(R.id.save);
-        save.setOnClickListener(onSave);
     }
     
     private View.OnClickListener onSave = new View.OnClickListener() {
