@@ -76,23 +76,24 @@ public class LunchList extends Activity {
     
     private View.OnClickListener onSave = new View.OnClickListener() {
 		public void onClick(View v) {
+			Restaurant r = new Restaurant();
 			EditText name = (EditText) findViewById(R.id.name);
 			EditText address = (EditText) findViewById(R.id.addr);
 			
-			model.setName(name.getText().toString());
-			model.setAddress(address.getText().toString());
+			r.setName(name.getText().toString());
+			r.setAddress(address.getText().toString());
 			
 			RadioGroup types = (RadioGroup) findViewById(R.id.types);
 			
 			switch (types.getCheckedRadioButtonId()){
 			case R.id.sit_down:
-				model.setType("sit_down");
+				r.setType("sit_down");
 				break;
 			case R.id.take_out:
-				model.setType("take_out");
+				r.setType("take_out");
 				break;
 			case R.id.delivery:
-				model.setType("delivery");
+				r.setType("delivery");
 				break;
 			}
 		}
