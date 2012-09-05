@@ -10,8 +10,8 @@ import android.widget.*;
 
 public class LunchList extends Activity {
 	
-	List<Restaurant> model = new ArrayList<Restaurant>();
-	ArrayAdapter<Restaurant> adapter = null;
+	List<Restaurant> restaurants = new ArrayList<Restaurant>();
+	ArrayAdapter<Restaurant> restaurantAdapter = null;
 	
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -21,9 +21,9 @@ public class LunchList extends Activity {
         Button save = (Button) findViewById(R.id.save);
         save.setOnClickListener(onSave);
         
-        Spinner list = (Spinner) findViewById(R.id.restaurants);
-        adapter = new ArrayAdapter<Restaurant>(this, android.R.layout.simple_list_item_1, model);
-        list.setAdapter(adapter);
+        ListView restaurantList = (ListView) findViewById(R.id.restaurants);
+        restaurantAdapter = new ArrayAdapter<Restaurant>(this, android.R.layout.simple_list_item_1, restaurants);
+        restaurantList.setAdapter(restaurantAdapter);
     }
     
     private View.OnClickListener onSave = new View.OnClickListener() {
@@ -31,27 +31,33 @@ public class LunchList extends Activity {
 		public void onClick(View v) {
 			Restaurant r = new Restaurant();
 			EditText name = (EditText) findViewById(R.id.name);
-			EditText address = (EditText) findViewById(R.id.addr);
+			AutoCompleteTextView address = (AutoCompleteTextView) findViewById(R.id.addr);
+			RadioGroup types = (RadioGroup) findViewById(R.id.types);
 			
 			r.setName(name.getText().toString());
 			r.setAddress(address.getText().toString());
+			r.setType(restaurantTypeFromRadioGroup(types));
 			
-			RadioGroup types = (RadioGroup) findViewById(R.id.types);
-			
-			switch (types.getCheckedRadioButtonId()){
-			case R.id.sit_down:
-				r.setType("sit_down");
-				break;
-			case R.id.take_out:
-				r.setType("take_out");
-				break;
-			case R.id.delivery:
-				r.setType("delivery");
-				break;
-			}
-			adapter.add(r);
+			restaurantAdapter.add(r);
 		}
 	};
+	
+	private String restaurantTypeFromRadioGroup(RadioGroup group){
+		if (group == null){
+			return "";
+		}
+		
+		switch (group.getCheckedRadioButtonId()){
+			case R.id.sit_down:
+				return "sit_down";
+			case R.id.take_out:
+				return "take_out";
+			case R.id.delivery:
+				return "delivery";
+		}
+		
+		return "";
+	}
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
