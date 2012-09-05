@@ -27,6 +27,7 @@ public class LunchList extends Activity {
     }
     
     private View.OnClickListener onSave = new View.OnClickListener() {
+    	
 		public void onClick(View v) {
 			Restaurant r = new Restaurant();
 			EditText name = (EditText) findViewById(R.id.name);
@@ -48,7 +49,6 @@ public class LunchList extends Activity {
 				r.setType("delivery");
 				break;
 			}
-			
 			adapter.add(r);
 		}
 	};
@@ -57,5 +57,5 @@ public class LunchList extends Activity {
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.activity_lunch_list, menu);
         return true;
-    }
+    }   
 }
