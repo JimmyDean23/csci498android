@@ -10,8 +10,14 @@ import android.widget.*;
 
 public class LunchList extends Activity {
 	
+	class RestaurantAdapter extends ArrayAdapter<Restaurant> {
+		RestaurantAdapter() {
+			super(LunchList.this, android.R.layout.simple_list_item_1, restaurants);
+		}
+	}
+	
 	List<Restaurant> restaurants = new ArrayList<Restaurant>();
-	ArrayAdapter<Restaurant> restaurantAdapter = null;
+	RestaurantAdapter restaurantAdapter = null;
 	
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -22,7 +28,7 @@ public class LunchList extends Activity {
         save.setOnClickListener(onSave);
         
         ListView restaurantList = (ListView) findViewById(R.id.restaurants);
-        restaurantAdapter = new ArrayAdapter<Restaurant>(this, android.R.layout.simple_list_item_1, restaurants);
+        restaurantAdapter = new RestaurantAdapter();
         restaurantList.setAdapter(restaurantAdapter);
     }
     
@@ -55,7 +61,6 @@ public class LunchList extends Activity {
 			case R.id.delivery:
 				return "delivery";
 		}
-		
 		return "";
 	}
 
