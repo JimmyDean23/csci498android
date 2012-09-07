@@ -12,11 +12,11 @@ public class LunchList extends Activity {
 	
 	class RestaurantAdapter extends ArrayAdapter<Restaurant> {
 		RestaurantAdapter() {
-			super(LunchList.this, android.R.layout.simple_list_item_1, restaurants);
+			super(LunchList.this, android.R.layout.simple_list_item_1, restaurantsList);
 		}
 	}
 	
-	List<Restaurant> restaurants = new ArrayList<Restaurant>();
+	List<Restaurant> restaurantsList = new ArrayList<Restaurant>();
 	RestaurantAdapter restaurantAdapter = null;
 	
     @Override
@@ -24,8 +24,8 @@ public class LunchList extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lunch_list);
         
-        Button save = (Button) findViewById(R.id.save);
-        save.setOnClickListener(onSave);
+        Button saveButton = (Button) findViewById(R.id.save);
+        saveButton.setOnClickListener(onSave);
         
         ListView restaurantList = (ListView) findViewById(R.id.restaurants);
         restaurantAdapter = new RestaurantAdapter();
@@ -35,16 +35,16 @@ public class LunchList extends Activity {
     private View.OnClickListener onSave = new View.OnClickListener() {
     	
 		public void onClick(View v) {
-			Restaurant r = new Restaurant();
+			Restaurant currentRestaurant = new Restaurant();
 			EditText name = (EditText) findViewById(R.id.name);
 			AutoCompleteTextView address = (AutoCompleteTextView) findViewById(R.id.addr);
 			RadioGroup types = (RadioGroup) findViewById(R.id.types);
 			
-			r.setName(name.getText().toString());
-			r.setAddress(address.getText().toString());
-			r.setType(restaurantTypeFromRadioGroup(types));
+			currentRestaurant.setName(name.getText().toString());
+			currentRestaurant.setAddress(address.getText().toString());
+			currentRestaurant.setType(restaurantTypeFromRadioGroup(types));
 			
-			restaurantAdapter.add(r);
+			restaurantAdapter.add(currentRestaurant);
 		}
 	};
 	
