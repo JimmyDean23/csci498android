@@ -2,7 +2,7 @@ package csci498.bidixon.lunchlist;
 
 import java.util.*;
 import android.os.Bundle;
-import android.app.Activity;
+import android.app.*;
 import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -10,7 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.*;
 
-public class LunchList extends Activity {
+public class LunchList extends TabActivity {
 	
 	List<Restaurant> restaurantsList = new ArrayList<Restaurant>();
 	RestaurantAdapter restaurantAdapter = null;
