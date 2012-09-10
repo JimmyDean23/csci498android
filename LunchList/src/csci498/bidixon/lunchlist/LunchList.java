@@ -19,27 +19,52 @@ public class LunchList extends Activity {
 		public View getView(int position, View convertView, ViewGroup parent){
 			View row = convertView;
 			
-			if(row == null){
+			if (row == null){
 				LayoutInflater inflater = getLayoutInflater();
 				row = inflater.inflate(R.layout.row, null);
 			}
 			
-			Restaurant rest = restaurantsList.get(position);
+			Restaurant restaurant = restaurantsList.get(position);
 			
-			((TextView) row.findViewById(R.id.title)).setText(rest.getName());
-			((TextView) row.findViewById(R.id.address)).setText(rest.getAddress());
+			((TextView) row.findViewById(R.id.title)).setText(restaurant.getName());
+			((TextView) row.findViewById(R.id.address)).setText(restaurant.getAddress());
 			
 			ImageView icon = (ImageView) row.findViewById(R.id.icon);
 			
-			if(rest.getType().equals("sit_down")) {
+			if (restaurant.getType().equals("sit_down")) {
 				icon.setImageResource(R.drawable.ball_red);
-			} else if(rest.getType().equals("take_out")) {
+			} else if (restaurant.getType().equals("take_out")) {
 				icon.setImageResource(R.drawable.ball_yellow);
 			} else {
 				icon.setImageResource(R.drawable.ball_green);
 			}
 			
 			return row;
+		}
+	}
+	
+	static class RestaurantHolder {
+		private TextView name = null;
+		private TextView address = null;
+		private ImageView icon = null;
+		
+		RestaurantHolder(View row) {
+			name = (TextView) row.findViewById(R.id.title);
+			address = (TextView) row.findViewById(R.id.address);
+			icon = (ImageView) row.findViewById(R.id.icon);
+		}
+		
+		void populateFrom(Restaurant restaurant){
+			name.setText(restaurant.getName());
+			address.setText(restaurant.getAddress());
+			
+			if (restaurant.getType().equals("sit_down")) {
+				icon.setImageResource(R.drawable.ball_red);
+			} else if (restaurant.getType().equals("take_out")) {
+				icon.setImageResource(R.drawable.ball_yellow);
+			} else {
+				icon.setImageResource(R.drawable.ball_green);
+			}
 		}
 	}
 	
