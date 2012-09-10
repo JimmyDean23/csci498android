@@ -14,12 +14,18 @@ public class LunchList extends TabActivity {
 	
 	List<Restaurant> restaurantsList = new ArrayList<Restaurant>();
 	RestaurantAdapter restaurantAdapter = null;
+	EditText name = null;
+	EditText address = null;
+	RadioGroup types = null;
 	
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lunch_list);
         
+        name = (EditText) findViewById(R.id.name);
+		address = (AutoCompleteTextView) findViewById(R.id.addr);
+		types = (RadioGroup) findViewById(R.id.types);
         Button saveButton = (Button) findViewById(R.id.save);
         saveButton.setOnClickListener(onSave);
         
@@ -46,9 +52,6 @@ public class LunchList extends TabActivity {
     	
 		public void onClick(View v) {
 			Restaurant currentRestaurant = new Restaurant();
-			EditText name = (EditText) findViewById(R.id.name);
-			AutoCompleteTextView address = (AutoCompleteTextView) findViewById(R.id.addr);
-			RadioGroup types = (RadioGroup) findViewById(R.id.types);
 			
 			currentRestaurant.setName(name.getText().toString());
 			currentRestaurant.setAddress(address.getText().toString());
@@ -59,7 +62,20 @@ public class LunchList extends TabActivity {
 	};
 	
 	private AdapterView.OnItemClickListener onListClick = new AdapterView.OnItemClickListener() {
-		public void onItemClick(AdapterView<?> parent, View view, int position, long id) {}
+		public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+			Restaurant r = restaurantsList.get(position);
+			
+			name.setText(r.getName());
+			address.setText(r.getAddress());
+			
+			if (r.getType().equals("sit_down")){
+				types.check(R.id.sit_down);
+			} else if (r.getType().equals("take_out")){
+				types.check(R.id.take_out);
+			} else {
+				types.check(R.id.delivery);
+			}
+		}
 	};
 	
 	private String restaurantTypeFromRadioGroup(RadioGroup group){
