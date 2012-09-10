@@ -3,6 +3,7 @@ package csci498.bidixon.lunchlist;
 import java.util.*;
 import android.os.Bundle;
 import android.app.Activity;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
@@ -106,10 +107,13 @@ public class LunchList extends Activity {
 			address.setText(restaurant.getAddress());
 			
 			if (restaurant.getType().equals("sit_down")) {
+				name.setTextColor(Color.RED);
 				icon.setImageResource(R.drawable.ball_red);
 			} else if (restaurant.getType().equals("take_out")) {
+				name.setTextColor(Color.YELLOW);
 				icon.setImageResource(R.drawable.ball_yellow);
 			} else {
+				name.setTextColor(Color.GREEN);
 				icon.setImageResource(R.drawable.ball_green);
 			}
 		}
