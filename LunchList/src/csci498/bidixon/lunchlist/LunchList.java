@@ -13,10 +13,10 @@ import android.widget.*;
 public class LunchList extends TabActivity {
 	
 	List<Restaurant> restaurantsList = new ArrayList<Restaurant>();
-	RestaurantAdapter restaurantAdapter = null;
-	EditText name = null;
-	EditText address = null;
-	RadioGroup types = null;
+	RestaurantAdapter restaurantAdapter;
+	EditText name;
+	EditText address;
+	RadioGroup types;
 	
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -24,7 +24,7 @@ public class LunchList extends TabActivity {
         setContentView(R.layout.activity_lunch_list);
         
         name = (EditText) findViewById(R.id.name);
-		address = (AutoCompleteTextView) findViewById(R.id.addr);
+		address = (EditText) findViewById(R.id.addr);
 		types = (RadioGroup) findViewById(R.id.types);
 		
         Button saveButton = (Button) findViewById(R.id.save);
@@ -129,9 +129,9 @@ public class LunchList extends TabActivity {
 	}
 	
 	static class RestaurantHolder {
-		private TextView name = null;
-		private TextView address = null;
-		private ImageView icon = null;
+		private TextView name;
+		private TextView address;
+		private ImageView icon;
 		
 		RestaurantHolder(View row) {
 			name = (TextView) row.findViewById(R.id.title);
