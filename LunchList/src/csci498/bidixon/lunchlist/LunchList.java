@@ -26,6 +26,7 @@ public class LunchList extends TabActivity {
         ListView list = (ListView) findViewById(R.id.restaurants);
         restaurantAdapter = new RestaurantAdapter();
         list.setAdapter(restaurantAdapter);
+        list.setOnItemClickListener(onListClick);
         
         TabHost.TabSpec spec = getTabHost().newTabSpec("tag1");
         
@@ -55,6 +56,10 @@ public class LunchList extends TabActivity {
 			
 			restaurantAdapter.add(currentRestaurant);
 		}
+	};
+	
+	private AdapterView.OnItemClickListener onListClick = new AdapterView.OnItemClickListener() {
+		public void onItemClick(AdapterView<?> parent, View view, int position, long id) {}
 	};
 	
 	private String restaurantTypeFromRadioGroup(RadioGroup group){
