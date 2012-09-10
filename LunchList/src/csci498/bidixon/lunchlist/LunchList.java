@@ -26,13 +26,13 @@ public class LunchList extends TabActivity {
         name = (EditText) findViewById(R.id.name);
 		address = (AutoCompleteTextView) findViewById(R.id.addr);
 		types = (RadioGroup) findViewById(R.id.types);
+		
         Button saveButton = (Button) findViewById(R.id.save);
         saveButton.setOnClickListener(onSave);
         
         ListView list = (ListView) findViewById(R.id.restaurants);
         restaurantAdapter = new RestaurantAdapter();
         list.setAdapter(restaurantAdapter);
-        list.setOnItemClickListener(onListClick);
         
         TabHost.TabSpec spec = getTabHost().newTabSpec("tag1");
         
@@ -44,12 +44,14 @@ public class LunchList extends TabActivity {
         spec = getTabHost().newTabSpec("tag2");
         spec.setContent(R.id.details);
         spec.setIndicator("Details", getResources().getDrawable(R.drawable.restaurant));
+        
         getTabHost().addTab(spec);
         getTabHost().setCurrentTab(0);
+        
+        list.setOnItemClickListener(onListClick);
     }
     
     private View.OnClickListener onSave = new View.OnClickListener() {
-    	
 		public void onClick(View v) {
 			Restaurant currentRestaurant = new Restaurant();
 			
@@ -75,6 +77,8 @@ public class LunchList extends TabActivity {
 			} else {
 				types.check(R.id.delivery);
 			}
+			
+			getTabHost().setCurrentTab(1);
 		}
 	};
 	
@@ -102,7 +106,7 @@ public class LunchList extends TabActivity {
     
     class RestaurantAdapter extends ArrayAdapter<Restaurant> {
 		RestaurantAdapter() {
-			super(LunchList.this, android.R.layout.simple_list_item_1, restaurantsList);
+			super(LunchList.this, R.layout.row, restaurantsList);
 		}
 		
 		public View getView(int position, View convertView, ViewGroup parent){
@@ -111,14 +115,13 @@ public class LunchList extends TabActivity {
 			
 			if (row == null){
 				LayoutInflater inflater = getLayoutInflater();
-				row = inflater.inflate(R.layout.row, null);
+				row = inflater.inflate(R.layout.row, parent, false);
 				
 				holder = new RestaurantHolder(row);
 				row.setTag(holder);
 			} else {
 				holder = (RestaurantHolder) row.getTag();
 			}
-			
 			holder.populateFrom(restaurantsList.get(position));
 			
 			return row;
