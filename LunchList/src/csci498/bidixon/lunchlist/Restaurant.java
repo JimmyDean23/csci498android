@@ -5,9 +5,9 @@ package csci498.bidixon.lunchlist;
 
 public class Restaurant {
 	
-	private String name = "";
-	private String address = "";
-	private String type = "";
+	private String name;
+	private String address;
+	private String type;
 	
 	public String getName() {
 		return name;

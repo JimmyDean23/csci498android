@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.*;
 
+@SuppressWarnings("deprecation")
 public class LunchList extends TabActivity {
 	
 	List<Restaurant> restaurantsList = new ArrayList<Restaurant>();
@@ -70,9 +71,9 @@ public class LunchList extends TabActivity {
 			name.setText(r.getName());
 			address.setText(r.getAddress());
 			
-			if (r.getType().equals("sit_down")){
+			if (r.getType().equals(R.string.sit_down)){
 				types.check(R.id.sit_down);
-			} else if (r.getType().equals("take_out")){
+			} else if (r.getType().equals(R.string.take_out)){
 				types.check(R.id.take_out);
 			} else {
 				types.check(R.id.delivery);
@@ -143,10 +144,10 @@ public class LunchList extends TabActivity {
 			name.setText(restaurant.getName());
 			address.setText(restaurant.getAddress());
 			
-			if (restaurant.getType().equals("sit_down")) {
+			if (restaurant.getType().equals(R.string.sit_down)) {
 				name.setTextColor(Color.RED);
 				icon.setImageResource(R.drawable.ball_red);
-			} else if (restaurant.getType().equals("take_out")) {
+			} else if (restaurant.getType().equals(R.string.take_out)) {
 				name.setTextColor(Color.YELLOW);
 				icon.setImageResource(R.drawable.ball_yellow);
 			} else {
