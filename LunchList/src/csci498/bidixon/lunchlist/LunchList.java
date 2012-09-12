@@ -18,7 +18,6 @@ public class LunchList extends TabActivity {
 	EditText name;
 	EditText address;
 	RadioGroup types;
-	DatePicker datePick;
 	
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -28,7 +27,6 @@ public class LunchList extends TabActivity {
         name = (EditText) findViewById(R.id.name);
 		address = (EditText) findViewById(R.id.addr);
 		types = (RadioGroup) findViewById(R.id.types);
-		datePick = (DatePicker) findViewById(R.id.datePicker);
 
         Button saveButton = (Button) findViewById(R.id.save);
         saveButton.setOnClickListener(onSave);
@@ -61,9 +59,6 @@ public class LunchList extends TabActivity {
 			currentRestaurant.setName(name.getText().toString());
 			currentRestaurant.setAddress(address.getText().toString());
 			currentRestaurant.setType(restaurantTypeFromRadioGroup(types));
-			currentRestaurant.setMonth(datePick.getMonth());
-			currentRestaurant.setDay(datePick.getDayOfMonth());
-			currentRestaurant.setYear(datePick.getYear());
 			
 			restaurantAdapter.add(currentRestaurant);
 		}
@@ -138,21 +133,16 @@ public class LunchList extends TabActivity {
 		private TextView name;
 		private TextView address;
 		private ImageView icon;
-		private TextView date;
 		
 		RestaurantHolder(View row) {
 			name = (TextView) row.findViewById(R.id.title);
 			address = (TextView) row.findViewById(R.id.address);
 			icon = (ImageView) row.findViewById(R.id.icon);
-			date = (TextView) row.findViewById(R.id.date);
 		}
 		
 		void populateFrom(Restaurant restaurant){
 			name.setText(restaurant.getName());
 			address.setText(restaurant.getAddress());
-			
-			String dateText = new String(restaurant.getMonth() + "/" + restaurant.getDay() + "/" + restaurant.getYear());
-			date.setText(dateText);
 			
 			if (restaurant.getType().equals(R.string.sit_down)) {
 				name.setTextColor(Color.RED);
