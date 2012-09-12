@@ -17,6 +17,7 @@ public class LunchList extends TabActivity {
 	RestaurantAdapter restaurantAdapter;
 	EditText name;
 	EditText address;
+	EditText notes;
 	RadioGroup types;
 	
     @Override
@@ -26,6 +27,7 @@ public class LunchList extends TabActivity {
         
         name = (EditText) findViewById(R.id.name);
 		address = (EditText) findViewById(R.id.addr);
+		notes = (EditText) findViewById(R.id.notes);
 		types = (RadioGroup) findViewById(R.id.types);
 
         Button saveButton = (Button) findViewById(R.id.save);
@@ -58,6 +60,7 @@ public class LunchList extends TabActivity {
 			
 			currentRestaurant.setName(name.getText().toString());
 			currentRestaurant.setAddress(address.getText().toString());
+			currentRestaurant.setNotes(notes.getText().toString());
 			currentRestaurant.setType(restaurantTypeFromRadioGroup(types));
 			
 			restaurantAdapter.add(currentRestaurant);
@@ -70,6 +73,7 @@ public class LunchList extends TabActivity {
 			
 			name.setText(r.getName());
 			address.setText(r.getAddress());
+			notes.setText(r.getNotes());
 			
 			if (r.getType().equals(R.string.sit_down)){
 				types.check(R.id.sit_down);
