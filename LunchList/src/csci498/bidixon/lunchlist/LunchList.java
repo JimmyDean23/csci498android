@@ -7,6 +7,7 @@ import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.*;
@@ -16,6 +17,7 @@ public class LunchList extends TabActivity {
 	
 	List<Restaurant> restaurantsList = new ArrayList<Restaurant>();
 	RestaurantAdapter restaurantAdapter;
+	Restaurant current = null;
 	EditText name;
 	EditText address;
 	EditText notes;
@@ -57,28 +59,28 @@ public class LunchList extends TabActivity {
     
     private View.OnClickListener onSave = new View.OnClickListener() {
 		public void onClick(View v) {
-			Restaurant currentRestaurant = new Restaurant();
+			current = new Restaurant();
 			
-			currentRestaurant.setName(name.getText().toString());
-			currentRestaurant.setAddress(address.getText().toString());
-			currentRestaurant.setNotes(notes.getText().toString());
-			currentRestaurant.setType(restaurantTypeFromRadioGroup(types));
+			current.setName(name.getText().toString());
+			current.setAddress(address.getText().toString());
+			current.setNotes(notes.getText().toString());
+			current.setType(restaurantTypeFromRadioGroup(types));
 			
-			restaurantAdapter.add(currentRestaurant);
+			restaurantAdapter.add(current);
 		}
 	};
 	
 	private AdapterView.OnItemClickListener onListClick = new AdapterView.OnItemClickListener() {
 		public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-			Restaurant r = restaurantsList.get(position);
+			current = restaurantsList.get(position);
 			
-			name.setText(r.getName());
-			address.setText(r.getAddress());
-			notes.setText(r.getNotes());
+			name.setText(current.getName());
+			address.setText(current.getAddress());
+			notes.setText(current.getNotes());
 			
-			if (r.getType().equals(R.string.sit_down)){
+			if (current.getType().equals(R.string.sit_down)){
 				types.check(R.id.sit_down);
-			} else if (r.getType().equals(R.string.take_out)){
+			} else if (current.getType().equals(R.string.take_out)){
 				types.check(R.id.take_out);
 			} else {
 				types.check(R.id.delivery);
@@ -108,6 +110,21 @@ public class LunchList extends TabActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         new MenuInflater(this).inflate(R.menu.option, menu);
         return super.onCreateOptionsMenu(menu);
+    }
+    
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item){
+    	if(item.getItemId() == R.id.toast){
+    		String message = "No restaurant selected";
+    		
+    		if (current != null){
+    			message = current.getNotes();
+    		}
+    		 Toast.makeText(this, message, Toast.LENGTH_LONG).show();
+    		 return true;
+    	}
+    	
+    	return super.onOptionsItemSelected(item);
     }
     
     class RestaurantAdapter extends ArrayAdapter<Restaurant> {
