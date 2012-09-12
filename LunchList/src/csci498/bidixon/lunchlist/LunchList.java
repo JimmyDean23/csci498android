@@ -2,6 +2,7 @@ package csci498.bidixon.lunchlist;
 
 import java.util.*;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.app.*;
 import android.graphics.Color;
 import android.view.LayoutInflater;
@@ -10,6 +11,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.*;
 
 @SuppressWarnings("deprecation")
@@ -22,10 +24,12 @@ public class LunchList extends TabActivity {
 	EditText address;
 	EditText notes;
 	RadioGroup types;
+	int progress;
 	
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        requestWindowFeature(Window.FEATURE_PROGRESS);
         setContentView(R.layout.activity_lunch_list);
         
         name = (EditText) findViewById(R.id.name);
@@ -104,6 +108,18 @@ public class LunchList extends TabActivity {
 				return "delivery";
 		}
 		return "";
+	}
+	
+	private Runnable longTask = new Runnable() {
+		public void run(){
+			for (int i = 0; i < 20; i++){
+				doSomeLongWork(500);
+			}
+		}
+	};
+	
+	private void doSomeLongWork(final int incr){
+		SystemClock.sleep(250);
 	}
 
     @Override
