@@ -1,6 +1,7 @@
 package csci498.bidixon.lunchlist;
 
 import java.util.*;
+import java.util.concurrent.atomic.AtomicBoolean;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.app.*;
@@ -25,6 +26,7 @@ public class LunchList extends TabActivity {
 	EditText notes;
 	RadioGroup types;
 	int progress = 0;
+	AtomicBoolean isActive = new AtomicBoolean(true);
 	
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -112,7 +114,7 @@ public class LunchList extends TabActivity {
 	
 	private Runnable longTask = new Runnable() {
 		public void run(){
-			for (int i = progress; i < 10000; i += 200){
+			for (int i = progress; i < 10000 && isActive.get(); i += 200){
 				doSomeLongWork(500);
 			}
 			
@@ -123,6 +125,12 @@ public class LunchList extends TabActivity {
 			});
 		}
 	};
+	
+	@Override
+	public void onPause() {
+		super.onPause();
+		isActive.set(false);
+	}
 	
 	private void doSomeLongWork(final int incr){
 		runOnUiThread(new Runnable() {
