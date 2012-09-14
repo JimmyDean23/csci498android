@@ -24,7 +24,7 @@ public class LunchList extends TabActivity {
 	EditText address;
 	EditText notes;
 	RadioGroup types;
-	int progress;
+	int progress = 0;
 	
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -112,7 +112,7 @@ public class LunchList extends TabActivity {
 	
 	private Runnable longTask = new Runnable() {
 		public void run(){
-			for (int i = 0; i < 20; i++){
+			for (int i = progress; i < 10000; i += 200){
 				doSomeLongWork(500);
 			}
 			
