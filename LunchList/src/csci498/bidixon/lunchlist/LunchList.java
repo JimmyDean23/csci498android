@@ -70,6 +70,7 @@ public class LunchList extends TabActivity {
 		public void onClick(View v) {
 			String type = restaurantTypeFromRadioGroup(types);
 			helper.insert(name.getText().toString(), address.getText().toString(), type, notes.getText().toString());
+			model.requery();
 		}
 	};
 	
