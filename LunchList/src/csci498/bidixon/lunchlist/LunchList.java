@@ -20,6 +20,7 @@ public class LunchList extends TabActivity {
 	
 	List<Restaurant> restaurantsList = new ArrayList<Restaurant>();
 	RestaurantAdapter restaurantAdapter;
+	RestaurantHelper helper;
 	Restaurant current = null;
 	EditText name;
 	EditText address;
@@ -31,6 +32,7 @@ public class LunchList extends TabActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lunch_list);
         
+        helper = new RestaurantHelper(this);
         name = (EditText) findViewById(R.id.name);
 		address = (EditText) findViewById(R.id.addr);
 		notes = (EditText) findViewById(R.id.notes);
@@ -107,6 +109,12 @@ public class LunchList extends TabActivity {
 				return "delivery";
 		}
 		return "";
+	}
+	
+	@Override
+	public void onDestroy() {
+		super.onDestroy();
+		helper.close();
 	}
 
     class RestaurantAdapter extends ArrayAdapter<Restaurant> {
