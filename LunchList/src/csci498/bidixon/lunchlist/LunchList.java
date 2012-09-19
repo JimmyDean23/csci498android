@@ -64,14 +64,8 @@ public class LunchList extends TabActivity {
     
     private View.OnClickListener onSave = new View.OnClickListener() {
 		public void onClick(View v) {
-			current = new Restaurant();
-			
-			current.setName(name.getText().toString());
-			current.setAddress(address.getText().toString());
-			current.setNotes(notes.getText().toString());
-			current.setType(restaurantTypeFromRadioGroup(types));
-			
-			restaurantAdapter.add(current);
+			String type = restaurantTypeFromRadioGroup(types);
+			helper.insert(name.getText().toString(), address.getText().toString(), type, notes.getText().toString());
 		}
 	};
 	
