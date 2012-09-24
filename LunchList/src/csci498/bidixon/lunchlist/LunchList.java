@@ -12,7 +12,7 @@ import android.view.ViewGroup;
 import android.widget.*;
 
 @SuppressWarnings("deprecation")
-public class LunchList extends TabActivity {
+public class LunchList extends ListActivity {
 	
 	RestaurantAdapter restaurantAdapter;
 	RestaurantHelper helper;
@@ -29,67 +29,17 @@ public class LunchList extends TabActivity {
         setContentView(R.layout.activity_lunch_list);
         
         helper = new RestaurantHelper(this);
-        name = (EditText) findViewById(R.id.name);
-		address = (EditText) findViewById(R.id.addr);
-		notes = (EditText) findViewById(R.id.notes);
-		types = (RadioGroup) findViewById(R.id.types);
-
-        Button saveButton = (Button) findViewById(R.id.save);
-        saveButton.setOnClickListener(onSave);
-        
-        ListView list = (ListView) findViewById(R.id.restaurants);
         model = helper.getAll();
         startManagingCursor(model);
         restaurantAdapter = new RestaurantAdapter(model);
-        list.setAdapter(restaurantAdapter);
-        
-        TabHost.TabSpec spec = getTabHost().newTabSpec("tag1");
-        
-        spec.setContent(R.id.restaurants);
-        spec.setIndicator("List", getResources().getDrawable(R.drawable.list));
-        
-        getTabHost().addTab(spec);
-        
-        spec = getTabHost().newTabSpec("tag2");
-        spec.setContent(R.id.details);
-        spec.setIndicator("Details", getResources().getDrawable(R.drawable.restaurant));
-        
-        getTabHost().addTab(spec);
-        getTabHost().setCurrentTab(0);
-        
-        list.setOnItemClickListener(onListClick);
+        setListAdapter(restaurantAdapter);
     }
-    
-    private View.OnClickListener onSave = new View.OnClickListener() {
-		public void onClick(View v) {
-			String type = restaurantTypeFromRadioGroup(types);
-			helper.insert(name.getText().toString(), address.getText().toString(), type, notes.getText().toString());
-			model.requery();
-		}
-	};
 	
 	private AdapterView.OnItemClickListener onListClick = new AdapterView.OnItemClickListener() {
 		public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 			Intent i = new Intent(LunchList.this, DetailForm.class);
 			
 			startActivity(i);
-			/*
-			model.moveToPosition(position);
-			
-			name.setText(helper.getName(model));
-			address.setText(helper.getAddress(model));
-			notes.setText(helper.getNotes(model));
-			
-			if (helper.getType(model).equals(R.string.sit_down)){
-				types.check(R.id.sit_down);
-			} else if (helper.getType(model).equals(R.string.take_out)){
-				types.check(R.id.take_out);
-			} else {
-				types.check(R.id.delivery);
-			}
-			
-			getTabHost().setCurrentTab(1);
-			*/
 		}
 	};
 	
