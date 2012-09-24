@@ -14,5 +14,6 @@
     <string name="text_view">TextView</string>
     <string name="description">This is an image icon</string>
     <string name="notes">Notes: </string>
+    <string name="click_here">Click the MENU button to add a rest</string>
 
 </resources>
