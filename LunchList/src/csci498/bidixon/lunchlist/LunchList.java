@@ -1,20 +1,14 @@
 package csci498.bidixon.lunchlist;
 
-import java.util.*;
-import java.util.concurrent.atomic.AtomicBoolean;
 import android.os.Bundle;
-import android.os.SystemClock;
 import android.app.*;
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.widget.*;
 
 @SuppressWarnings("deprecation")
@@ -76,6 +70,10 @@ public class LunchList extends TabActivity {
 	
 	private AdapterView.OnItemClickListener onListClick = new AdapterView.OnItemClickListener() {
 		public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+			Intent i = new Intent(LunchList.this, DetailForm.class);
+			
+			startActivity(i);
+			/*
 			model.moveToPosition(position);
 			
 			name.setText(helper.getName(model));
@@ -91,6 +89,7 @@ public class LunchList extends TabActivity {
 			}
 			
 			getTabHost().setCurrentTab(1);
+			*/
 		}
 	};
 	

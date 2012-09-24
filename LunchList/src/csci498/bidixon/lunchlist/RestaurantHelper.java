@@ -2,10 +2,8 @@ package csci498.bidixon.lunchlist;
 
 import android.content.Context;
 import android.content.ContentValues;
-import android.database.SQLException;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteQueryBuilder;
 import android.database.Cursor;
 
 public class RestaurantHelper extends SQLiteOpenHelper {
