@@ -14,6 +14,7 @@ import android.widget.*;
 @SuppressWarnings("deprecation")
 public class LunchList extends ListActivity {
 	
+	public final static String ID_EXTRA = "csci498.bidixon.lunchlist._ID";
 	RestaurantAdapter restaurantAdapter;
 	RestaurantHelper helper;
 	Cursor model;
@@ -34,29 +35,12 @@ public class LunchList extends ListActivity {
         restaurantAdapter = new RestaurantAdapter(model);
         setListAdapter(restaurantAdapter);
     }
-	
-	private AdapterView.OnItemClickListener onListClick = new AdapterView.OnItemClickListener() {
-		public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-			Intent i = new Intent(LunchList.this, DetailForm.class);
+	@Override
+	public void onListItemClick(ListView list, View view, int position, long id) {
+		Intent i = new Intent(LunchList.this, DetailForm.class);
 			
-			startActivity(i);
-		}
-	};
-	
-	private String restaurantTypeFromRadioGroup(RadioGroup group){
-		if (group == null){
-			return "";
-		}
-		
-		switch (group.getCheckedRadioButtonId()){
-			case R.id.sit_down:
-				return "sit_down";
-			case R.id.take_out:
-				return "take_out";
-			case R.id.delivery:
-				return "delivery";
-		}
-		return "";
+		i.putExtra(ID_EXTRA, String.valueOf(id));
+		startActivity(i);
 	}
 	
 	@Override
