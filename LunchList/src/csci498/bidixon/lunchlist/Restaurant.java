@@ -1,14 +1,24 @@
-// Restaurant class contains information about a certain restaurant
-// such as name, address, etc.
+/**
+ * @author Billy Dixon
+ * @version 0.1.3
+ */
 
 package csci498.bidixon.lunchlist;
 
+/*
+ * Restaurant class contains information about a certain
+ * restaurant such as name, address, etc.
+ */
 public class Restaurant {
 	
 	private String name;
 	private String address;
 	private String type;
 	private String notes;
+	
+	public String toString() {
+		return getName();
+	}
 	
 	public String getName() {
 		return name;
@@ -34,7 +44,5 @@ public class Restaurant {
 	public void setNotes(String notes) {
 		this.notes = notes;
 	}
-	public String toString(){
-		return(getName());
-	}
+	
 }

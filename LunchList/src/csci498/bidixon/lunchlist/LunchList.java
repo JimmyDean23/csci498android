@@ -1,3 +1,8 @@
+/**
+ * @author Billy Dixon
+ * @version 0.1.3
+ */
+
 package csci498.bidixon.lunchlist;
 
 import android.os.Bundle;
@@ -14,6 +19,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.*;
 
+/*
+ * Main activity that displays a list of Restaurants in database
+ */
 @SuppressWarnings("deprecation")
 public class LunchList extends ListActivity {
 	
@@ -21,11 +29,6 @@ public class LunchList extends ListActivity {
 	RestaurantAdapter restaurantAdapter;
 	RestaurantHelper helper;
 	Cursor model;
-	Restaurant current = null;
-	EditText name;
-	EditText address;
-	EditText notes;
-	RadioGroup types;
 	
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -101,7 +104,7 @@ public class LunchList extends ListActivity {
 			icon = (ImageView) row.findViewById(R.id.icon);
 		}
 		
-		void populateFrom(Cursor c, RestaurantHelper helper){
+		void populateFrom(Cursor c, RestaurantHelper helper) {
 			name.setText(helper.getName(c));
 			address.setText(helper.getAddress(c));
 			
@@ -117,4 +120,5 @@ public class LunchList extends ListActivity {
 			}
 		}
 	}
+	
 }

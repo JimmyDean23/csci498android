@@ -1,3 +1,8 @@
+/**
+ * @author Billy Dixon
+ * @version 0.1.3
+ */
+
 package csci498.bidixon.lunchlist;
 
 import android.content.Context;
@@ -6,7 +11,11 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.Cursor;
 
+/*
+ * SQLite helper class to interface with the database
+ */
 public class RestaurantHelper extends SQLiteOpenHelper {
+	
 	private static final String DATABASE_NAME = "lunchlist.db";
 	private static final int SCHEMA_VERSION = 1;
 	
@@ -37,31 +46,6 @@ public class RestaurantHelper extends SQLiteOpenHelper {
 		getWritableDatabase().update("restaurants", cv, "_ID=?", args);
 	}
 	
-	public Cursor getById(String id) {
-		String[] args = {id};
-		return (getReadableDatabase().rawQuery("SELECT _id, name, address, type, notes FROM restaurants WHERE _ID=?", args));
-	}
-	
-	public Cursor getAll() {
-		return(getReadableDatabase().rawQuery("SELECT _id, name, address, type, notes FROM restaurants ORDER BY name", null));
-	}
-	
-	public String getName(Cursor c) {
-		return(c.getString(1));
-	}
-
-	public String getAddress(Cursor c) {
-		return(c.getString(2));
-	}
-	
-	public String getType(Cursor c) {
-		return(c.getString(3));
-	}
-	
-	public String getNotes(Cursor c) {
-		return(c.getString(4));
-	}
-	
 	@Override
 	public void onCreate(SQLiteDatabase db) {
 		db.execSQL("CREATE TABLE restaurants (_id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, address TEXT, type TEXT, notes TEXT);");
@@ -72,4 +56,30 @@ public class RestaurantHelper extends SQLiteOpenHelper {
 		// no-op, since it will not be called until 2nd schema
 		// version exists
 	}
+	
+	public Cursor getById(String id) {
+		String[] args = {id};
+		return getReadableDatabase().rawQuery("SELECT _id, name, address, type, notes FROM restaurants WHERE _ID=?", args);
+	}
+	
+	public Cursor getAll() {
+		return getReadableDatabase().rawQuery("SELECT _id, name, address, type, notes FROM restaurants ORDER BY name", null);
+	}
+	
+	public String getName(Cursor c) {
+		return c.getString(1);
+	}
+
+	public String getAddress(Cursor c) {
+		return c.getString(2);
+	}
+	
+	public String getType(Cursor c) {
+		return c.getString(3);
+	}
+	
+	public String getNotes(Cursor c) {
+		return c.getString(4);
+	}
+		
 }

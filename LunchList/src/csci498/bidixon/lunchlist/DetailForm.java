@@ -1,3 +1,8 @@
+/**
+ * @author Billy Dixon
+ * @version 0.1.3
+ */
+
 package csci498.bidixon.lunchlist;
 
 import android.app.Activity;
@@ -8,6 +13,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioGroup;
 
+/*
+ * Activity that allows user to create new Restaurant entries and save them to the database
+ */
 public class DetailForm extends Activity {
 	
 	EditText name;
@@ -32,7 +40,7 @@ public class DetailForm extends Activity {
         saveButton.setOnClickListener(onSave);
         restaurantId = getIntent().getStringExtra(LunchList.ID_EXTRA);
         
-        if(restaurantId != null){
+        if(restaurantId != null) {
         	load();
         }
 	}
@@ -51,6 +59,7 @@ public class DetailForm extends Activity {
 		} else {
 			types.check(R.id.delivery);
 		}
+		
 		c.close();
 	}
 	
@@ -65,7 +74,7 @@ public class DetailForm extends Activity {
 		public void onClick(View v) {
 			String type = null;
 			
-			switch (types.getCheckedRadioButtonId()){
+			switch (types.getCheckedRadioButtonId()) {
 				case R.id.sit_down:
 					type = "sit_down";
 					break;
@@ -86,4 +95,5 @@ public class DetailForm extends Activity {
 			finish();
 		}
 	};
+	
 }
