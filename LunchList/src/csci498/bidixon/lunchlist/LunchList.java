@@ -59,7 +59,7 @@ public class LunchList extends ListActivity {
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		new MenuInflater(this).inflate(R.menu.option, menu);
-		return(super.onCreateOptionsMenu(menu));
+		return super.onCreateOptionsMenu(menu);
 	}
 	
 	@Override
@@ -67,8 +67,11 @@ public class LunchList extends ListActivity {
 		if (item.getItemId() == R.id.add) {
 			startActivity(new Intent(LunchList.this, DetailForm.class));
 			return true;
+		} else if (item.getItemId() == R.id.perfs) {
+			startActivity(new Intent(this, EditPreferences.class));
+			return true;
 		}
-		return(super.onOptionsItemSelected(item));
+		return super.onOptionsItemSelected(item);
 	}
 
     class RestaurantAdapter extends CursorAdapter {

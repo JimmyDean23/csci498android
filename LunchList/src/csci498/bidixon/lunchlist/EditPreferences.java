@@ -5,7 +5,6 @@
 
 package csci498.bidixon.lunchlist;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.preference.PreferenceActivity;
 
