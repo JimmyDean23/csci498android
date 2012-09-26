@@ -6,9 +6,11 @@
 package csci498.bidixon.lunchlist;
 
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.app.*;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.view.LayoutInflater;
@@ -29,14 +31,16 @@ public class LunchList extends ListActivity {
 	RestaurantAdapter restaurantAdapter;
 	RestaurantHelper helper;
 	Cursor model;
+	SharedPreferences prefs;
 	
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.lunch_list);
         
+        prefs = PreferenceManager.getDefaultSharedPreferences(this);
         helper = new RestaurantHelper(this);
-        model = helper.getAll();
+        model = helper.getAll(prefs.getString("sort_order", "name"));
         startManagingCursor(model);
         restaurantAdapter = new RestaurantAdapter(model);
         setListAdapter(restaurantAdapter);
