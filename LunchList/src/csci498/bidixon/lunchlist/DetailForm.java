@@ -1,6 +1,6 @@
 /**
  * @author Billy Dixon
- * @version 0.1.3
+ * @version 0.1.5
  */
 
 package csci498.bidixon.lunchlist;
@@ -61,6 +61,11 @@ public class DetailForm extends Activity {
 		}
 		
 		c.close();
+	}
+	
+	@Override
+	public void onSaveInstanceState(Bundle state) {
+		super.onSaveInstanceState(state);
 	}
 	
 	@Override
