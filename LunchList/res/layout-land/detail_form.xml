@@ -4,19 +4,19 @@
      	android:layout_height="wrap_content" >
 	<TableLayout android:layout_width="match_parent"
 	    android:layout_height="wrap_content"
-	    android:shrinkColumns="3"
-	    android:stretchColumns="3" >
+	    android:shrinkColumns="2"
+	    android:stretchColumns="2" >
 	    <TableRow>
 	        <TextView android:text="@string/restaurant_name" />
 	        <EditText android:id="@+id/name"
 	            	  android:inputType="text"
-	            	  android:layout_span="3" />
+	            	  android:layout_span="2" />
 	    </TableRow>
 	    <TableRow>
 	        <TextView android:text="@string/restaurant_address" />
 	        <EditText android:id="@+id/addr" 
 	            	  android:inputType="text"
-	            	  android:layout_span="3" />
+	            	  android:layout_span="2" />
 	    </TableRow>
 	    <TableRow>
 	        <TextView android:text="@string/restaurant_type" />
@@ -29,21 +29,25 @@
 	            <RadioButton android:id="@+id/delivery"
 	                android:text="@string/delivery" />
 	        </RadioGroup>
+	        <LinearLayout android:orientation="vertical">
+	            <EditText android:id="@+id/notes"
+	            	android:inputType="textMultiLine"
+	            	android:gravity="top"
+	            	android:lines="2"
+	           		android:scrollHorizontally="false"
+	            	android:maxLines="2" 
+	            	android:layout_width="match_parent"
+     				android:layout_height="wrap_content"
+     				android:hint="@string/notes" />
+	            <EditText android:id="@+id/feed"
+	                android:layout_width="match_parent"
+	                android:layout_height="wrap_content"
+	                android:hint="@string/feed" />
+	            <Button android:id="@+id/save"
+		    		android:layout_width="match_parent"
+		    		android:layout_height="wrap_content"
+		    		android:text="@string/save" />
+	        </LinearLayout>
 	    </TableRow>
-	    <TableRow>
-	        <TextView android:text="@string/notes" />
-	        <EditText android:id="@+id/notes"
-	            android:inputType="textMultiLine"
-	            android:gravity="top"
-	            android:lines="2"
-	            android:scrollHorizontally="false"
-	            android:maxLines="2" 
-	            android:layout_width="match_parent"
-     			android:layout_height="wrap_content" />
-	    </TableRow>
-		<Button android:id="@+id/save"
-		    android:layout_width="match_parent"
-		    android:layout_height="wrap_content"
-		    android:text="@string/save" />
 	</TableLayout>
 </ScrollView>
