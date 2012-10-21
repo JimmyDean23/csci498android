@@ -46,6 +46,7 @@ public class DetailForm extends Activity {
 		
 		helper = new RestaurantHelper(this);
 		locMgr = (LocationManager) getSystemService(LOCATION_SERVICE);
+		
         name = (EditText) findViewById(R.id.name);
 		address = (EditText) findViewById(R.id.addr);
 		notes = (EditText) findViewById(R.id.notes);
@@ -62,24 +63,16 @@ public class DetailForm extends Activity {
         }
 	}
 	
-	private void load() {
-		Cursor c = helper.getById(restaurantId);
-		c.moveToFirst();
-		name.setText(helper.getName(c));
-		address.setText(helper.getAddress(c));
-		notes.setText(helper.getNotes(c));
-		feed.setText(helper.getFeed(c));
-		location.setText(String.valueOf( helper.getLatitude(c) + ", " + helper.getLongitude(c) ));
-		
-		if (helper.getType(c).equals("sit_down")) {
-			types.check(R.id.sit_down);
-		} else if (helper.getType(c).equals("take_out")) {
-			types.check(R.id.take_out);
-		} else {
-			types.check(R.id.delivery);
-		}
-		
-		c.close();
+	@Override
+	public void onDestroy() {
+		super.onDestroy();
+		helper.close();
+	}
+	
+	@Override
+	public void onPause() {
+		locMgr.removeUpdates(onLocationChange);
+		super.onPause();
 	}
 	
 	@Override
@@ -138,23 +131,31 @@ public class DetailForm extends Activity {
 		return super.onPrepareOptionsMenu(menu);
 	}
 	
+	private void load() {
+		Cursor c = helper.getById(restaurantId);
+		c.moveToFirst();
+		name.setText(helper.getName(c));
+		address.setText(helper.getAddress(c));
+		notes.setText(helper.getNotes(c));
+		feed.setText(helper.getFeed(c));
+		location.setText(String.valueOf( helper.getLatitude(c) + ", " + helper.getLongitude(c) ));
+		
+		if (helper.getType(c).equals("sit_down")) {
+			types.check(R.id.sit_down);
+		} else if (helper.getType(c).equals("take_out")) {
+			types.check(R.id.take_out);
+		} else {
+			types.check(R.id.delivery);
+		}
+		
+		c.close();
+	}
+	
 	private boolean isNetworkAvailable() {
 		ConnectivityManager cm = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
 		NetworkInfo info = cm.getActiveNetworkInfo();
 		
 		return(info != null);
-	}
-
-	@Override
-	public void onDestroy() {
-		super.onDestroy();
-		helper.close();
-	}
-	
-	@Override
-	public void onPause() {
-		locMgr.removeUpdates(onLocationChange);
-		super.onPause();
 	}
 	
 	private LocationListener onLocationChange = new LocationListener() {
