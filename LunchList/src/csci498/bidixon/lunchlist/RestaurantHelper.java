@@ -93,5 +93,7 @@ public class RestaurantHelper extends SQLiteOpenHelper {
 	public String getType(Cursor c) 	{ return c.getString(3); }
 	public String getNotes(Cursor c) 	{ return c.getString(4); }
 	public String getFeed(Cursor c) 	{ return c.getString(5); }
+	public double getLatitude(Cursor c) 	{ return c.getDouble(6); }
+	public double getLongitude(Cursor c) 	{ return c.getDouble(7); }
 	
 }
