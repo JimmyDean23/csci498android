@@ -1,6 +1,6 @@
 /**
  * @author Billy Dixon
- * @version 0.1.6
+ * @version 0.1.7
  */
 
 package csci498.bidixon.lunchlist;
@@ -17,7 +17,7 @@ import android.database.Cursor;
 public class RestaurantHelper extends SQLiteOpenHelper {
 	
 	private static final String DATABASE_NAME = "lunchlist.db";
-	private static final int SCHEMA_VERSION = 2;
+	private static final int SCHEMA_VERSION = 3;
 	
 	public RestaurantHelper(Context context) {
 		super(context, DATABASE_NAME, null, SCHEMA_VERSION);
@@ -52,7 +52,7 @@ public class RestaurantHelper extends SQLiteOpenHelper {
 	@Override
 	public void onCreate(SQLiteDatabase db) {
 		db.execSQL("CREATE TABLE restaurants (_id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, " +
-				"address TEXT, type TEXT, notes TEXT, feed TEXT);");
+				"address TEXT, type TEXT, notes TEXT, feed TEXT, lat REAL, lon REAL);");
 	}
 
 	@Override
@@ -71,23 +71,10 @@ public class RestaurantHelper extends SQLiteOpenHelper {
 				"notes, feed FROM restaurants ORDER BY " + orderBy, null);
 	}
 	
-	public String getName(Cursor c) {
-		return c.getString(1);
-	}
-
-	public String getAddress(Cursor c) {
-		return c.getString(2);
-	}
+	public String getName(Cursor c) 	{ return c.getString(1); }
+	public String getAddress(Cursor c) 	{ return c.getString(2); }
+	public String getType(Cursor c) 	{ return c.getString(3); }
+	public String getNotes(Cursor c) 	{ return c.getString(4); }
+	public String getFeed(Cursor c) 	{ return c.getString(5); }
 	
-	public String getType(Cursor c) {
-		return c.getString(3);
-	}
-	
-	public String getNotes(Cursor c) {
-		return c.getString(4);
-	}
-	public String getFeed(Cursor c) {
-		return c.getString(5);
-	}
-		
 }
