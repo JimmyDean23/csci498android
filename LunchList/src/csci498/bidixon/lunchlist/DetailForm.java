@@ -6,6 +6,7 @@
 package csci498.bidixon.lunchlist;
 
 import android.app.Activity;
+import android.location.LocationManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
@@ -34,6 +35,7 @@ public class DetailForm extends Activity {
 	RadioGroup types;
 	RestaurantHelper helper;
 	String restaurantId;
+	LocationManager locMgr;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -41,6 +43,7 @@ public class DetailForm extends Activity {
 		setContentView(R.layout.detail_form);
 		
 		helper = new RestaurantHelper(this);
+		locMgr = (LocationManager) getSystemService(LOCATION_SERVICE);
         name = (EditText) findViewById(R.id.name);
 		address = (EditText) findViewById(R.id.addr);
 		notes = (EditText) findViewById(R.id.notes);
@@ -116,6 +119,9 @@ public class DetailForm extends Activity {
 				Toast.makeText(this, "Network Connection not available.", Toast.LENGTH_LONG).show();
 			}
 			
+			return true;
+		} else if (item.getItemId() == R.id.location) {
+			locMgr.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, onLocationChange);
 			return true;
 		}
 		
