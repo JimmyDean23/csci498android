@@ -7,14 +7,13 @@ package csci498.bidixon.lunchlist;
 
 import org.mcsoxford.rss.RSSFeed;
 import org.mcsoxford.rss.RSSItem;
-import org.mcsoxford.rss.RSSReader;
 import android.app.AlertDialog;
 import android.app.ListActivity;
-import android.os.AsyncTask;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.util.Log;
+import android.os.Messenger;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,11 +36,17 @@ public class FeedActivity extends ListActivity {
 		state = (InstanceState) getLastNonConfigurationInstance();
 		if (state == null) {
 			state = new InstanceState();
-			state.task = new FeedTask(this);
-			state.task.execute(getIntent().getStringExtra(FEED_URL));
+			state.handler = new FeedHandler(this);
+			
+			Intent i = new Intent(this, FeedService.class);
+			
+			i.putExtra(FeedService.EXTRA_URL, getIntent().getStringExtra(FEED_URL));
+			i.putExtra(FeedService.EXTRA_MESSENGER, new Messenger(state.handler));
+			
+			startService(i);
 		} else {
-			if (state.task != null) {
-				state.task.attach(this);
+			if (state.handler != null) {
+				state.handler.attach(this);
 			}
 			
 			if (state.feed != null) {
@@ -52,8 +57,8 @@ public class FeedActivity extends ListActivity {
 	
 	@Override
 	public Object onRetainNonConfigurationInstance() {
-		if (state.task != null) {
-			state.task.detach();
+		if (state.handler != null) {
+			state.handler.detach();
 		}
 		return state;
 	}
@@ -72,7 +77,7 @@ public class FeedActivity extends ListActivity {
 	private static class InstanceState {
 		
 		RSSFeed feed = null;
-		FeedTask task = null;
+		FeedHandler handler = null;
 	
 	}
 	
