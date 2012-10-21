@@ -143,6 +143,12 @@ public class DetailForm extends Activity {
 		helper.close();
 	}
 	
+	@Override
+	public void onPause() {
+		locMgr.removeUpdates(onLocationChange);
+		super.onPause();
+	}
+	
 	private LocationListener onLocationChange = new LocationListener() {
 		
 		public void onLocationChanged(Location fix) {
