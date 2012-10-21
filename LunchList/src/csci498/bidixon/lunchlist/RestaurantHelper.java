@@ -57,18 +57,35 @@ public class RestaurantHelper extends SQLiteOpenHelper {
 
 	@Override
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-		db.execSQL("ALTER TABLE restaurants ADD COLUMN feed TEXT");
+		if (oldVersion < 2) {
+			db.execSQL("ALTER TABLE restaurants ADD COLUMN feed TEXT");
+		}
+		
+		if (oldVersion < 3) {
+			db.execSQL("ALTER TABLE restaurants ADD COLUMN lat REAL");
+			db.execSQL("ALTER TABLE restaurants ADD COLUMN lon REAL");
+		}
 	}
 	
 	public Cursor getById(String id) {
 		String[] args = {id};
 		return getReadableDatabase().rawQuery("SELECT _id, name, address, type, " +
-				"notes, feed FROM restaurants WHERE _ID=?", args);
+				"notes, feed, lat, lon FROM restaurants WHERE _ID=?", args);
 	}
 	
 	public Cursor getAll(String orderBy) {
 		return getReadableDatabase().rawQuery("SELECT _id, name, address, type, " +
-				"notes, feed FROM restaurants ORDER BY " + orderBy, null);
+				"notes, feed, lat, lon FROM restaurants ORDER BY " + orderBy, null);
+	}
+	
+	public void updateLocation(String id, double lat, double lon) {
+		ContentValues cv = new ContentValues();
+		String[] args = {id};
+		
+		cv.put("lat", lat);
+		cv.put("lon", lon);
+		
+		getWritableDatabase().update("restaurants", cv, "_ID=?", args);
 	}
 	
 	public String getName(Cursor c) 	{ return c.getString(1); }
