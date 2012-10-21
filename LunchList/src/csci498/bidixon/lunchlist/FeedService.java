@@ -14,6 +14,9 @@ import android.os.Message;
 import android.os.Messenger;
 import android.util.Log;
 
+/*
+ * Service that handles RSSFeeds 
+ */
 public class FeedService extends IntentService {
 	
 	public static final String EXTRA_URL = "csci498.bidixon.lunchlist.EXTRA_URL";
