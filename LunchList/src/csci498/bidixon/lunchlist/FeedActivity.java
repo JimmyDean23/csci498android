@@ -12,6 +12,8 @@ import android.app.AlertDialog;
 import android.app.ListActivity;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -74,13 +76,11 @@ public class FeedActivity extends ListActivity {
 	
 	}
 	
-	private static class FeedTask extends AsyncTask<String, Void, RSSFeed> {
+	private static class FeedHandler extends Handler {
 		
-		private RSSReader reader = new RSSReader();
-		private Exception e = null;
 		private FeedActivity activity = null;
 		
-		FeedTask(FeedActivity activity) {
+		FeedHandler(FeedActivity activity) {
 			attach(activity);
 		}
 		
@@ -91,26 +91,12 @@ public class FeedActivity extends ListActivity {
 		private void detach() {
 			this.activity = null;
 		}
-
-		@Override
-		public RSSFeed doInBackground(String... urls) {
-			RSSFeed result = null;
-			
-			try {
-				result = reader.load(urls[0]);
-			} catch (Exception e) {
-				this.e = e;
-			}
-			
-			return result;
-		}
 		
-		public void onPostExecute(RSSFeed feed) {
-			if (e == null) {
-				activity.setFeed(feed);
+		public void handleMessage(Message msg) {
+			if (msg.arg1 == RESULT_OK) {
+				activity.setFeed((RSSFeed) msg.obj);
 			} else {
-				Log.e("LunchList", "Exception parsing feed", e);
-				activity.raiseError(e);
+				activity.raiseError((Exception) msg.obj);
 			}
 		}
 		

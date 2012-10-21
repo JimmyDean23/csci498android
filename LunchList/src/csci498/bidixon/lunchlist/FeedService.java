@@ -7,7 +7,6 @@ package csci498.bidixon.lunchlist;
 
 import org.mcsoxford.rss.RSSFeed;
 import org.mcsoxford.rss.RSSReader;
-
 import android.app.Activity;
 import android.app.IntentService;
 import android.content.Intent;
