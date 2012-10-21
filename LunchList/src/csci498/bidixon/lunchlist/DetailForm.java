@@ -6,6 +6,8 @@
 package csci498.bidixon.lunchlist;
 
 import android.app.Activity;
+import android.location.Location;
+import android.location.LocationListener;
 import android.location.LocationManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -140,6 +142,30 @@ public class DetailForm extends Activity {
 		super.onDestroy();
 		helper.close();
 	}
+	
+	private LocationListener onLocationChange = new LocationListener() {
+		
+		public void onLocationChanged(Location fix) {
+			helper.updateLocation(restaurantId, fix.getLatitude(), fix.getLongitude());
+			location.setText( String.valueOf(fix.getLatitude()) + ", " + String.valueOf(fix.getLongitude()) );
+			locMgr.removeUpdates(onLocationChange);
+			
+			Toast.makeText(DetailForm.this, "Location saved", Toast.LENGTH_LONG).show();
+		}
+
+		public void onProviderDisabled(String provider) { 
+			// not use
+		}
+
+		public void onProviderEnabled(String provider) {
+			// not used			
+		}
+
+		public void onStatusChanged(String provider, int status, Bundle extras) {
+			// not used			
+		}
+
+	};
 	
 	private View.OnClickListener onSave = new View.OnClickListener() {
 		
