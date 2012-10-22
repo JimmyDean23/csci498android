@@ -38,6 +38,8 @@ public class DetailForm extends Activity {
 	RestaurantHelper helper;
 	String restaurantId;
 	LocationManager locMgr;
+	double latitude = 0.0d;
+	double longitude = 0.0d;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -141,10 +143,13 @@ public class DetailForm extends Activity {
 	private void load() {
 		Cursor c = helper.getById(restaurantId);
 		c.moveToFirst();
+		
 		name.setText(helper.getName(c));
 		address.setText(helper.getAddress(c));
 		notes.setText(helper.getNotes(c));
 		feed.setText(helper.getFeed(c));
+		latitude = helper.getLatitude(c);
+		longitude = helper.getLongitude(c);
 		location.setText(String.valueOf( helper.getLatitude(c) + ", " + helper.getLongitude(c) ));
 		
 		if (helper.getType(c).equals("sit_down")) {
@@ -154,7 +159,7 @@ public class DetailForm extends Activity {
 		} else {
 			types.check(R.id.delivery);
 		}
-		
+				
 		c.close();
 	}
 	
