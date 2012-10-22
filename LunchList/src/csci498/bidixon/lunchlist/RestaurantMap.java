@@ -26,20 +26,27 @@ public class RestaurantMap extends MapActivity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		
-		double lat = getIntent().getDoubleExtra(EXTRA_LATITUDE, 0);
-		double lon = getIntent().getDoubleExtra(EXTRA_LONGITUDE, 0);
-		map = (MapView) findViewById(R.id.map);
-		setMapZoom(lat, lon);
-		
 		setContentView(R.layout.map);
+		
+		setMapZoom();
 	}
 	
-	private void setMapZoom(double lat, double lon) {
+	private void setMapZoom() {
+		double lat = getIntent().getDoubleExtra(EXTRA_LATITUDE, 0);
+		double lon = getIntent().getDoubleExtra(EXTRA_LONGITUDE, 0);
+		
+		map = (MapView) findViewById(R.id.map);
 		map.getController().setZoom(17);
+		
 		GeoPoint status = new GeoPoint( (int) (lat*1000000.0), (int) (lon*1000000.0) );
+		
 		map.getController().setCenter(status);
 		map.setBuiltInZoomControls(true);
+		
+		Drawable marker = getResources().getDrawable(R.drawable.marker);
+		marker.setBounds(0, 0, marker.getIntrinsicWidth(), marker.getIntrinsicHeight());
+		
+		map.getOverlays().add(new RestaurantOverlay(marker, status, getIntent().getStringExtra(EXTRA_NAME)));
 	}
 	
 	@Override
