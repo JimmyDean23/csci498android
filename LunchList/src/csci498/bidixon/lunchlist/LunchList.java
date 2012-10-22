@@ -28,6 +28,7 @@ import android.widget.*;
 public class LunchList extends ListActivity {
 	
 	public final static String ID_EXTRA = "csci498.bidixon.lunchlist._ID";
+	
 	RestaurantAdapter restaurantAdapter;
 	RestaurantHelper helper;
 	Cursor model;
@@ -40,11 +41,11 @@ public class LunchList extends ListActivity {
         
         helper = new RestaurantHelper(this);
         prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        initList();        
+        initializeList();        
         prefs.registerOnSharedPreferenceChangeListener(prefListener);
     }
     
-    private void initList() {
+    private void initializeList() {
     	if (model != null) {
     		stopManagingCursor(model);
     		model.close();
@@ -93,7 +94,7 @@ public class LunchList extends ListActivity {
 		
 		public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
 			if (key.equals("sort_order")) {
-				initList();
+				initializeList();
 			}
 		}
 	};

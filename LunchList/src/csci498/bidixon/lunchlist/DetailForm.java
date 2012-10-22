@@ -46,23 +46,28 @@ public class DetailForm extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.detail_form);
 		
-		helper = new RestaurantHelper(this);
-		locMgr = (LocationManager) getSystemService(LOCATION_SERVICE);
-		
-        name = (EditText) findViewById(R.id.name);
-		address = (EditText) findViewById(R.id.addr);
-		notes = (EditText) findViewById(R.id.notes);
-		types = (RadioGroup) findViewById(R.id.types);
-		feed = (EditText) findViewById(R.id.feed);
-		location = (TextView) findViewById(R.id.location);
-
+		initializeFields();
+        
         Button saveButton = (Button) findViewById(R.id.save);
         saveButton.setOnClickListener(onSave);
+        
         restaurantId = getIntent().getStringExtra(LunchList.ID_EXTRA);
         
         if(restaurantId != null) {
         	load();
         }
+	}
+	
+	private void initializeFields() {
+		name = (EditText) findViewById(R.id.name);
+		address = (EditText) findViewById(R.id.addr);
+		notes = (EditText) findViewById(R.id.notes);
+		types = (RadioGroup) findViewById(R.id.types);
+		feed = (EditText) findViewById(R.id.feed);
+		location = (TextView) findViewById(R.id.location);
+		
+		helper = new RestaurantHelper(this);
+		locMgr = (LocationManager) getSystemService(LOCATION_SERVICE);
 	}
 	
 	@Override
@@ -106,33 +111,42 @@ public class DetailForm extends Activity {
 	
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
+		
 		if (item.getItemId() == R.id.feed) {
+			
 			if (isNetworkAvailable()) {
 				Intent i = new Intent(this, FeedActivity.class);
 				
 				i.putExtra(FeedActivity.FEED_URL, feed.getText().toString());
+				
 				startActivity(i);
 			} else {
 				Toast.makeText(this, "Network Connection not available.", Toast.LENGTH_LONG).show();
 			}
 			
 			return true;
+			
 		} else if (item.getItemId() == R.id.location) {
+			
 			locMgr.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, onLocationChange);
 			
 			return true;
+			
 		} else if (item.getItemId() == R.id.map) {
+			
 			Intent i = new Intent(this, RestaurantMap.class);
+			
 			i.putExtra(RestaurantMap.EXTRA_LATITUDE, latitude);
 			i.putExtra(RestaurantMap.EXTRA_LONGITUDE, longitude);
 			i.putExtra(RestaurantMap.EXTRA_NAME, name.getText().toString());
 			
 			startActivity(i);
-			
 			return true;
+			
 		}
 		
 		return super.onOptionsItemSelected(item);
+		
 	}
 	
 	@Override
@@ -187,11 +201,9 @@ public class DetailForm extends Activity {
 		public void onProviderDisabled(String provider) { 
 			// not use
 		}
-
 		public void onProviderEnabled(String provider) {
 			// not used			
 		}
-
 		public void onStatusChanged(String provider, int status, Bundle extras) {
 			// not used			
 		}
@@ -225,6 +237,7 @@ public class DetailForm extends Activity {
 			
 			finish();
 		}
+		
 	};
 	
 }

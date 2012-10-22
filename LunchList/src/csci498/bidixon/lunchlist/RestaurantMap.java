@@ -13,6 +13,9 @@ import com.google.android.maps.MapActivity;
 import com.google.android.maps.MapView;
 import com.google.android.maps.OverlayItem;
 
+/*
+ * Map activity showing the location of the selected Restaurant on a map using stored GPS coordinates 
+ */
 public class RestaurantMap extends MapActivity {
 
 	public static final String EXTRA_LATITUDE="csci498.bidixon.lunchlist.EXTRA_LATITUDE";
@@ -27,13 +30,16 @@ public class RestaurantMap extends MapActivity {
 		double lat = getIntent().getDoubleExtra(EXTRA_LATITUDE, 0);
 		double lon = getIntent().getDoubleExtra(EXTRA_LONGITUDE, 0);
 		map = (MapView) findViewById(R.id.map);
+		setMapZoom(lat, lon);
 		
+		setContentView(R.layout.map);
+	}
+	
+	private void setMapZoom(double lat, double lon) {
 		map.getController().setZoom(17);
 		GeoPoint status = new GeoPoint( (int) (lat*1000000.0), (int) (lon*1000000.0) );
 		map.getController().setCenter(status);
 		map.setBuiltInZoomControls(true);
-		
-		setContentView(R.layout.map);
 	}
 	
 	@Override
