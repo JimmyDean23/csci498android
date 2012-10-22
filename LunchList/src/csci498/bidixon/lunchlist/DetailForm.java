@@ -123,6 +123,10 @@ public class DetailForm extends Activity {
 			return true;
 		} else if (item.getItemId() == R.id.map) {
 			Intent i = new Intent(this, RestaurantMap.class);
+			i.putExtra(RestaurantMap.EXTRA_LATITUDE, latitude);
+			i.putExtra(RestaurantMap.EXTRA_LONGITUDE, longitude);
+			i.putExtra(RestaurantMap.EXTRA_NAME, name.getText().toString());
+			
 			startActivity(i);
 			
 			return true;
