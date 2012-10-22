@@ -21,6 +21,12 @@ public class RestaurantMap extends MapActivity {
 		
 		double lat = getIntent().getDoubleExtra(EXTRA_LATITUDE, 0);
 		double lon = getIntent().getDoubleExtra(EXTRA_LONGITUDE, 0);
+		map = (MapView) findViewById(R.id.map);
+		
+		map.getController().setZoom(17);
+		GeoPoint status = new GeoPoint( (int) (lat*1000000.0), (int) (lon*1000000.0) );
+		map.getController().setCenter(status);
+		map.setBuiltInZoomControls(true);
 		
 		setContentView(R.layout.map);
 	}
