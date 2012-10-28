@@ -17,7 +17,7 @@ import android.preference.PreferenceManager;
 public class OnAlarmReceiver extends BroadcastReceiver {
 
 	private static final int NOTIFY_ME_ID = 1337;
-	
+	 
 	@Override
 	public void onReceive(Context context, Intent intent) {
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
