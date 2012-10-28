@@ -19,5 +19,6 @@
     <string name="click_here">Click the MENU button to add a rest</string>
     <string name="location">Location:</string>
     <string name="notset">(not set)</string>
+    <string name="time_for_lunch">It\'s time for lunch!</string>
 
 </resources>
