@@ -8,6 +8,7 @@ package csci498.bidixon.lunchlist;
 import java.util.Calendar;
 
 import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -18,8 +19,7 @@ public class OnBootReceiver extends BroadcastReceiver {
 
 	@Override
 	public void onReceive(Context context, Intent intent) {
-		
-
+		setAlarm(context);
 	}
 	
 	public static void setAlarm(Context context) {
@@ -43,6 +43,11 @@ public class OnBootReceiver extends BroadcastReceiver {
 	public static void cancelAlarm(Context context) {
 		AlarmManager manager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
 		manager.cancel(getPendingIntent(context));
+	}
+	
+	private static PendingIntent getPendingIntent(Context context) {
+		Intent i = new Intent(context, OnAlarmReceiver.class);
+		return PendingIntent.getBroadcast(context, 0, i, 0);
 	}
 
 }
