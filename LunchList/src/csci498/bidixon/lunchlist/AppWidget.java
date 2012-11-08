@@ -10,6 +10,9 @@ import android.appwidget.AppWidgetProvider;
 import android.content.Context;
 import android.content.Intent;
 
+/*
+ * Widget for LunchList
+ */
 public class AppWidget extends AppWidgetProvider {
 	
 	@Override
