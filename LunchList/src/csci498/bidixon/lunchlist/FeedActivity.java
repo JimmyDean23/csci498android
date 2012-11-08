@@ -1,6 +1,6 @@
 /**
  * @author Billy Dixon
- * @version 0.2.0
+ * @version 0.2.1
  */
 
 package csci498.bidixon.lunchlist;
