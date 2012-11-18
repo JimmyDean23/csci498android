@@ -1,3 +1,8 @@
+/**
+ * @author Billy Dixon
+ * @version 0.2.2
+ */
+
 package csci498.bidixon.lunchlist;
 
 import android.appwidget.AppWidgetManager;
@@ -15,7 +20,7 @@ public class ListViewsFactory implements RemoteViewsService.RemoteViewsFactory {
 	private RestaurantHelper helper = null;
 	private Cursor restaurants = null;
 	
-	public ListViewsFactory(Context ctxt, Intent intent) { 
+	public ListViewsFactory(Context context, Intent intent) { 
 		this.context = context;
 	}
 	
