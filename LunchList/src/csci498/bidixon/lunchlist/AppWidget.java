@@ -30,6 +30,7 @@ public class AppWidget extends AppWidgetProvider {
 		}
 	}
 	
+	@SuppressWarnings("deprecation")
 	public void onHCUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
 		for (int i = 0; i < appWidgetIds.length; i++) {
 			Intent svcIntent = new Intent(context, ListWidgetService.class);
