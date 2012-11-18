@@ -23,7 +23,7 @@ public class RestaurantHelper extends SQLiteOpenHelper {
 		super(context, DATABASE_NAME, null, SCHEMA_VERSION);
 	}
 	
-	public void insert(String name, String address, String type, String notes, String feed) {
+	public void insert(String name, String address, String type, String notes, String feed, String phone) {
 		ContentValues cv = new ContentValues();
 		
 		cv.put("name", name);
@@ -31,12 +31,13 @@ public class RestaurantHelper extends SQLiteOpenHelper {
 		cv.put("type", type);
 		cv.put("notes", notes);
 		cv.put("feed", feed);
+		cv.put("phone", phone);
 		
 		getWritableDatabase().insert("restaurants", "name", cv);
 	}
 	
 	public void update(String id, String name, String address, 
-			String type, String notes, String feed) {
+			String type, String notes, String feed, String phone) {
 		ContentValues cv = new ContentValues();
 		String[] args = {id};
 		
@@ -45,6 +46,7 @@ public class RestaurantHelper extends SQLiteOpenHelper {
 		cv.put("type", type);
 		cv.put("notes", notes);
 		cv.put("feed", feed);
+		cv.put("phone", phone);
 		
 		getWritableDatabase().update("restaurants", cv, "_ID=?", args);
 	}
@@ -74,12 +76,12 @@ public class RestaurantHelper extends SQLiteOpenHelper {
 	public Cursor getById(String id) {
 		String[] args = {id};
 		return getReadableDatabase().rawQuery("SELECT _id, name, address, type, " +
-				"notes, feed, lat, lon FROM restaurants WHERE _ID=?", args);
+				"notes, feed, lat, lon, phone FROM restaurants WHERE _ID=?", args);
 	}
 	
 	public Cursor getAll(String orderBy) {
 		return getReadableDatabase().rawQuery("SELECT _id, name, address, type, " +
-				"notes, feed, lat, lon FROM restaurants ORDER BY " + orderBy, null);
+				"notes, feed, lat, lon, phone FROM restaurants ORDER BY " + orderBy, null);
 	}
 	
 	public void updateLocation(String id, double lat, double lon) {
@@ -99,5 +101,6 @@ public class RestaurantHelper extends SQLiteOpenHelper {
 	public String getFeed(Cursor c) 	 { return c.getString(5); }
 	public double getLatitude(Cursor c)  { return c.getDouble(6); }
 	public double getLongitude(Cursor c) { return c.getDouble(7); }
+	public String getPhone(Cursor c) 	 { return c.getString(8); }
 	
 }
