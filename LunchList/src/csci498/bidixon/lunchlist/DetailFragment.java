@@ -5,20 +5,22 @@
 
 package csci498.bidixon.lunchlist;
 
-import android.app.Activity;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
+import android.support.v4.app.Fragment;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
+import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -27,7 +29,7 @@ import android.widget.Toast;
 /*
  * Activity that allows user to create new Restaurant entries and save them to the database
  */
-public class DetailFragment extends Activity {
+public class DetailFragment extends Fragment {
 	
 	EditText name;
 	EditText address;
@@ -37,125 +39,107 @@ public class DetailFragment extends Activity {
 	RadioGroup types;
 	RestaurantHelper helper;
 	String restaurantId;
-	LocationManager locMgr;
+	LocationManager locationManager;
 	double latitude = 0.0d;
 	double longitude = 0.0d;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.detail_form);
 		
-		initializeFields();
-        
-        Button saveButton = (Button) findViewById(R.id.save);
-        saveButton.setOnClickListener(onSave);
-        
-        restaurantId = getIntent().getStringExtra(LunchList.ID_EXTRA);
-        
-        if(restaurantId != null) {
-        	load();
-        }
-	}
-	
-	private void initializeFields() {
-		name = (EditText) findViewById(R.id.name);
-		address = (EditText) findViewById(R.id.addr);
-		notes = (EditText) findViewById(R.id.notes);
-		types = (RadioGroup) findViewById(R.id.types);
-		feed = (EditText) findViewById(R.id.feed);
-		location = (TextView) findViewById(R.id.location);
-		
-		helper = new RestaurantHelper(this);
-		locMgr = (LocationManager) getSystemService(LOCATION_SERVICE);
+		setHasOptionsMenu(true);
 	}
 	
 	@Override
-	public void onDestroy() {
-		super.onDestroy();
-		helper.close();
+	public void onActivityCreated(Bundle savedInstanceState) {
+		super.onActivityCreated(savedInstanceState); 
+		
+		locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
+		
+		name = (EditText) getView().findViewById(R.id.name); 
+		address = (EditText) getView().findViewById(R.id.addr); 
+		notes = (EditText) getView().findViewById(R.id.notes); 
+		types = (RadioGroup) getView().findViewById(R.id.types); 
+		feed = (EditText) getView().findViewById(R.id.feed); 
+		location = (TextView) getView().findViewById(R.id.location);
+	}
+	
+	@Override
+	public View onCreateView(LayoutInflater inflater, ViewGroup container,
+			Bundle savedInstanceState) { 
+		return inflater.inflate(R.layout.detail_form, container, false);
+	}
+	
+	@Override
+	public void onResume() { 
+		super.onResume();
+		
+		helper = new RestaurantHelper(getActivity()); 
+		restaurantId = getActivity().getIntent().getStringExtra(LunchList.ID_EXTRA);
+		
+		if (restaurantId != null) { 
+			load();
+		} 
 	}
 	
 	@Override
 	public void onPause() {
-		locMgr.removeUpdates(onLocationChange);
+		save();
+		helper.close(); 
+		locationManager.removeUpdates(onLocationChange);
 		super.onPause();
 	}
 	
 	@Override
-	public void onSaveInstanceState(Bundle state) {
-		super.onSaveInstanceState(state);
-		
-		state.putString("name", name.getText().toString());
-		state.putString("address", address.getText().toString());
-		state.putString("notes", notes.getText().toString());
-		state.putInt("type", types.getCheckedRadioButtonId());
+	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+		inflater.inflate(R.menu.details_options, menu); 
 	}
 	
 	@Override
-	public void onRestoreInstanceState(Bundle state) {
-		super.onRestoreInstanceState(state);
-		
-		name.setText(state.getString("name"));
-		address.setText(state.getString("address"));
-		notes.setText(state.getString("notes"));
-		types.check(state.getInt("type"));
-	}
-	
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		new MenuInflater(this).inflate(R.menu.details_options, menu);
-		
-		return super.onCreateOptionsMenu(menu);
+	public void onPrepareOptionsMenu(Menu menu) {
+		if (restaurantId == null) {
+			menu.findItem(R.id.location).setEnabled(false);
+			menu.findItem(R.id.map).setEnabled(false);
+		}
 	}
 	
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		
 		if (item.getItemId() == R.id.feed) {
-			
 			if (isNetworkAvailable()) {
-				Intent i = new Intent(this, FeedActivity.class);
+				Intent i = new Intent(getActivity(), FeedActivity.class);
 				
 				i.putExtra(FeedActivity.FEED_URL, feed.getText().toString());
 				
 				startActivity(i);
 			} else {
-				Toast.makeText(this, "Network Connection not available.", Toast.LENGTH_LONG).show();
+				Toast.makeText(getActivity(), "Network Connection not available.", Toast.LENGTH_LONG).show();
 			}
 			
 			return true;
-			
-		} else if (item.getItemId() == R.id.location) {
-			
-			locMgr.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, onLocationChange);
+		} else if (item.getItemId() == R.id.location) {			
+			locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, onLocationChange);
 			
 			return true;
-			
-		} else if (item.getItemId() == R.id.map) {
-			
-			Intent i = new Intent(this, RestaurantMap.class);
+		} else if (item.getItemId() == R.id.map) {			
+			Intent i = new Intent(getActivity(), RestaurantMap.class);
 			
 			i.putExtra(RestaurantMap.EXTRA_LATITUDE, latitude);
 			i.putExtra(RestaurantMap.EXTRA_LONGITUDE, longitude);
 			i.putExtra(RestaurantMap.EXTRA_NAME, name.getText().toString());
 			
 			startActivity(i);
-			return true;
-			
+			return true;			
 		}
 		
 		return super.onOptionsItemSelected(item);
-		
 	}
 	
-	@Override
-	public boolean onPrepareOptionsMenu(Menu menu) {
-		if (restaurantId == null) {
-			menu.findItem(R.id.location).setEnabled(false);
-			menu.findItem(R.id.map).setEnabled(false);
-		}
-		return super.onPrepareOptionsMenu(menu);
+	private boolean isNetworkAvailable() {
+		ConnectivityManager cm = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
+		NetworkInfo info = cm.getActiveNetworkInfo();
+		
+		return(info != null);
 	}
 	
 	private void load() {
@@ -181,11 +165,27 @@ public class DetailFragment extends Activity {
 		c.close();
 	}
 	
-	private boolean isNetworkAvailable() {
-		ConnectivityManager cm = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
-		NetworkInfo info = cm.getActiveNetworkInfo();
+	private void save() {
+		String type = null;
+		switch (types.getCheckedRadioButtonId()) {
+			case R.id.sit_down:
+				type = "sit_down";
+				break;
+			case R.id.take_out:
+				type = "take_out";
+				break;
+			case R.id.delivery:
+				type = "delivery";
+				break;
+		}
 		
-		return(info != null);
+		if (restaurantId == null) {
+			helper.insert(name.getText().toString(), address.getText().toString(), type, 
+					notes.getText().toString(), feed.getText().toString());
+		} else {
+			helper.update(restaurantId, name.getText().toString(), address.getText().toString(), 
+					type, notes.getText().toString(), feed.getText().toString());
+		}
 	}
 	
 	private LocationListener onLocationChange = new LocationListener() {
@@ -193,9 +193,9 @@ public class DetailFragment extends Activity {
 		public void onLocationChanged(Location fix) {
 			helper.updateLocation(restaurantId, fix.getLatitude(), fix.getLongitude());
 			location.setText( String.valueOf(fix.getLatitude()) + ", " + String.valueOf(fix.getLongitude()) );
-			locMgr.removeUpdates(onLocationChange);
+			locationManager.removeUpdates(onLocationChange);
 			
-			Toast.makeText(DetailFragment.this, "Location saved", Toast.LENGTH_LONG).show();
+			Toast.makeText(getActivity(), "Location saved", Toast.LENGTH_LONG).show();
 		}
 
 		public void onProviderDisabled(String provider) { 
@@ -208,36 +208,6 @@ public class DetailFragment extends Activity {
 			// not used			
 		}
 
-	};
-	
-	private View.OnClickListener onSave = new View.OnClickListener() {
-		
-		public void onClick(View v) {
-			String type = null;
-			
-			switch (types.getCheckedRadioButtonId()) {
-				case R.id.sit_down:
-					type = "sit_down";
-					break;
-				case R.id.take_out:
-					type = "take_out";
-					break;
-				case R.id.delivery:
-					type = "delivery";
-					break;
-			}
-			
-			if (restaurantId == null) {
-				helper.insert(name.getText().toString(), address.getText().toString(), type, 
-						notes.getText().toString(), feed.getText().toString());
-			} else {
-				helper.update(restaurantId, name.getText().toString(), address.getText().toString(), 
-						type, notes.getText().toString(), feed.getText().toString());
-			}
-			
-			finish();
-		}
-		
 	};
 	
 }
