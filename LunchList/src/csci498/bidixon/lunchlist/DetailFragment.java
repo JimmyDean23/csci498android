@@ -31,7 +31,7 @@ import android.widget.Toast;
  * Activity that allows user to create new Restaurant entries and save them to the database
  */
 public class DetailFragment extends Fragment {
-	
+	 
 	private static final String ARG_REST_ID="apt.tutorial.ARG_REST_ID";
 	EditText name;
 	EditText address;
