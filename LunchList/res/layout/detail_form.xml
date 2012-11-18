@@ -17,6 +17,11 @@
 	            	  android:inputType="text" />
 	    </TableRow>
 	    <TableRow>
+	        <TextView android:text="@string/phone" />
+	        <EditText android:id="@+id/phone" 
+	            android:inputType="phone" />
+	    </TableRow>
+	    <TableRow>
 	        <TextView android:text="@string/restaurant_type" />
 	        <RadioGroup android:id="@+id/types" >
 	            <RadioButton android:id="@+id/take_out"

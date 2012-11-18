@@ -13,6 +13,7 @@
     <string name="restaurant_type">Type:</string>
     <string name="notes">Notes:</string>
     <string name="feed">Feed URL</string>
+    <string name="phone">Phone:</string>
     
     <string name="save">Save</string>
     <string name="description">This is an image icon</string>
