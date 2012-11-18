@@ -7,6 +7,7 @@ package csci498.bidixon.lunchlist;
 
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.annotation.SuppressLint;
 import android.app.*;
 import android.content.Context;
 import android.content.Intent;
@@ -24,69 +25,79 @@ import android.widget.*;
 /*
  * Main activity that displays a list of Restaurants in database
  */
+@SuppressLint("NewApi")
 @SuppressWarnings("deprecation")
 public class LunchFragment extends ListFragment {
 	
 	public final static String ID_EXTRA = "csci498.bidixon.lunchlist._ID";
 	
-	RestaurantAdapter restaurantAdapter;
-	RestaurantHelper helper;
-	Cursor model;
-	SharedPreferences prefs;
+	private RestaurantAdapter restaurantAdapter;
+	private RestaurantHelper helper;
+	private Cursor model;
+	private SharedPreferences prefs;
+	private OnRestaurantListener listener;
 	
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.lunch_list);
-        
-        helper = new RestaurantHelper(this);
-        prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        initializeList();        
-        prefs.registerOnSharedPreferenceChangeListener(prefListener);
-    }
+	@Override
+	public void onCreate(Bundle state) {
+		super.onCreate(state); 
+		setHasOptionsMenu(true);
+	}
+	
+	@Override
+	public void onResume() { 
+		super.onResume();
+		helper = new RestaurantHelper(getActivity()); 
+		prefs = PreferenceManager.getDefaultSharedPreferences(getActivity()); 
+		initializeList(); 
+		prefs.registerOnSharedPreferenceChangeListener(prefListener);
+	}
+	
+	@Override
+	public void onPause() { 
+		helper.close();
+		super.onPause(); 
+	}
     
     private void initializeList() {
     	if (model != null) {
-    		stopManagingCursor(model);
     		model.close();
     	}   	
         
         model = helper.getAll(prefs.getString("sort_order", "name"));
-        startManagingCursor(model);
         restaurantAdapter = new RestaurantAdapter(model);
         setListAdapter(restaurantAdapter);
     }
     
 	@Override
 	public void onListItemClick(ListView list, View view, int position, long id) {
-		Intent i = new Intent(LunchFragment.this, DetailForm.class);
-			
-		i.putExtra(ID_EXTRA, String.valueOf(id));
-		startActivity(i);
+		if (listener != null) { 
+			listener.onRestaurantSelected(id);
+		}
 	}
 	
 	@Override
-	public void onDestroy() {
-		super.onDestroy();
-		helper.close();
-	}
-	
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		new MenuInflater(this).inflate(R.menu.option, menu);
-		return super.onCreateOptionsMenu(menu);
+	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+		inflater.inflate(R.menu.option, menu);
 	}
 	
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		if (item.getItemId() == R.id.add) {
-			startActivity(new Intent(LunchFragment.this, DetailForm.class));
+			startActivity(new Intent(getActivity(), DetailForm.class));
 			return true;
 		} else if (item.getItemId() == R.id.perfs) {
-			startActivity(new Intent(this, EditPreferences.class));
+			startActivity(new Intent(getActivity(), EditPreferences.class));
 			return true;
 		}
 		return super.onOptionsItemSelected(item);
+	}
+
+	public void setOnRestaurantListener(OnRestaurantListener listener) { 
+		this.listener = listener;
+	}
+	
+	public interface OnRestaurantListener { 
+		void onRestaurantSelected(long id);
 	}
 	
 	private SharedPreferences.OnSharedPreferenceChangeListener prefListener = 
@@ -101,7 +112,7 @@ public class LunchFragment extends ListFragment {
 
     class RestaurantAdapter extends CursorAdapter {
 		RestaurantAdapter(Cursor c) {
-			super(LunchFragment.this, c);
+			super(getActivity(), c);
 		}
 
 		@Override
@@ -112,7 +123,7 @@ public class LunchFragment extends ListFragment {
 
 		@Override
 		public View newView(Context ctxt, Cursor c, ViewGroup parent) {
-			LayoutInflater inflater = getLayoutInflater();
+			LayoutInflater inflater = getActivity().getLayoutInflater();
 			View row = inflater.inflate(R.layout.row, parent, false);
 			RestaurantHolder holder = new RestaurantHolder(row);
 			
