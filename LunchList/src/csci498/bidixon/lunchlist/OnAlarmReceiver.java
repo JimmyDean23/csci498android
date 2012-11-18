@@ -35,8 +35,8 @@ public class OnAlarmReceiver extends BroadcastReceiver {
 			note.setLatestEventInfo(context, "LunchList", "It's time for lunch! Aren't you hungry?", i);
 			note.flags|=Notification.FLAG_AUTO_CANCEL;
 			
-			String sound=prefs.getString("alarm_ringtone", null);
-			if (sound!=null) {
+			String sound = prefs.getString("alarm_ringtone", null);
+			if (sound != null) {
 				note.sound = Uri.parse(sound); 
 				note.audioStreamType = AudioManager.STREAM_ALARM;
 			}
