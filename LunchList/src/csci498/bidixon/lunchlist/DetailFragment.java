@@ -132,6 +132,8 @@ public class DetailFragment extends Fragment {
 			
 			startActivity(i);
 			return true;			
+		} else if (item.getItemId() == R.id.help) {
+			startActivity(new Intent(getActivity(), HelpPage.class));
 		}
 		
 		return super.onOptionsItemSelected(item);
